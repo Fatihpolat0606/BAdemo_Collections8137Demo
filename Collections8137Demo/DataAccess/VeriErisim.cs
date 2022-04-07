@@ -8,6 +8,17 @@ namespace Collections8137Demo.DataAccess
         // CRUD: Create, Read, Update, Delete
         public void Ekle(Ogrenci ogrenci)
         {
+            int id;
+            if (Veri.Ogrenciler.Count == 0)
+            {
+                id = 1;
+            }
+            else
+            {
+                id = Veri.Ogrenciler[Veri.Ogrenciler.Count - 1].Id;
+                id++;
+            }
+            ogrenci.Id = id;
             Veri.Ogrenciler.Add(ogrenci);
         }// Create
 
@@ -16,17 +27,9 @@ namespace Collections8137Demo.DataAccess
             return Veri.Ogrenciler;
         }// Read
 
-        public void Guncelle(Ogrenci ogrenci)
+        public void Guncelle(Ogrenci ogrenci, int id)
         {
-            Ogrenci listedekiOgrenci = null;
-            foreach (Ogrenci veriOgrenci in Veri.Ogrenciler)
-            {
-                if (veriOgrenci.Id == ogrenci.Id)
-                {
-                    listedekiOgrenci = veriOgrenci;
-                    break;
-                }
-            }
+            Ogrenci listedekiOgrenci = Oku(id);
             if (listedekiOgrenci != null)
             {
                 listedekiOgrenci.Adi = ogrenci.Adi;
@@ -42,5 +45,27 @@ namespace Collections8137Demo.DataAccess
         {
             Veri.Ogrenciler.Remove(ogrenci);
         }// Delete
+
+        public void Sil(int id)
+        {
+            Ogrenci listedekiOgrenci = Oku(id);
+            //Veri.Ogrenciler.Remove(listedekiOgrenci);
+            Sil(listedekiOgrenci);
+        }
+
+        public Ogrenci Oku(int id)
+        {
+            Ogrenci listedekiOgrenci = null;
+            foreach (Ogrenci veriOgrenci in Veri.Ogrenciler)
+            {
+                if (veriOgrenci.Id == id)
+                {
+                    listedekiOgrenci = veriOgrenci;
+                    break;
+                }
+            }
+
+            return listedekiOgrenci;
+        }
     }
 }
